@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>A simple clock</title>
+</head>
+
+<body translate="no">
+  <div id="output" style="display: inline-block;
+                          font-family: monospace;
+                          font-size: 30px;
+                          text-align: right;
+                          color: lightgray; 
+                          border-radius: 10px; 
+                          padding: 10px; 
+                          background-color: rgba(0, 0, 0, 0.75);">
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+  <script>
+    var output = document.getElementById("output");
+    var offset = 60; // offset in minutes (GMT+1)
+    setInterval(function() {
+      var localTime = moment().utcOffset(offset).format("DD/MM/YYYY HH:mm:ss");
+      var timezone = "GMT+1";
+      output.innerText = timezone + " " + localTime;
+    }, 1000);
+  </script>
+</body>
+
+</html>
