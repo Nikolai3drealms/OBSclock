@@ -17,14 +17,28 @@
                           background-color: rgba(0, 0, 0, 0.75);">
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
   <script>
     var output = document.getElementById("output");
-    var offset = 60; // offset in minutes (GMT+1)
+
+    // Get the timezone offset from the user's computer
+    var offset = new Date().getTimezoneOffset();
+
+    // Convert the offset to minutes and calculate the timezone abbreviation
+    var absOffset = Math.abs(offset);
+    var hoursOffset = Math.floor(absOffset / 60);
+    var minutesOffset = absOffset % 60;
+    var timezone = "UTC" + (offset >= 0 ? "-" : "+") + hoursOffset.toString().padStart(2, "0") + ":" + minutesOffset.toString().padStart(2, "0");
+
     setInterval(function() {
-      var localTime = moment().utcOffset(offset).format("DD/MM/YYYY HH:mm:ss");
-      var timezone = "GMT+1";
-      output.innerText = timezone + " " + localTime;
+      // Get the current date and time with the timezone offset applied
+      var utcTime = new Date(Date.now() - (offset * 60 * 1000)).toISOString();
+      
+      // Extract the date and time portions of the UTC timestamp
+      var localDate = utcTime.slice(0, 10);
+      var localTime = utcTime.slice(11, 19);
+      
+      // Update the output with the current date, time, and timezone abbreviation
+      output.innerText = localDate + " " + timezone + " " + localTime;
     }, 1000);
   </script>
 </body>
